@@ -172,4 +172,14 @@ Temporary Items
 # Ignore all local history of files
 .history
 
+### App ###
+
+	App4621/.idea/caches/
+	App4621/.idea/libraries/
+	App4621/.idea/modules.xml
+	App4621/.idea/modules/
+	App4621/.idea/workspace.xml
+
+
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,macos,java,visualstudiocode
