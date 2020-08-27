@@ -1,12 +1,16 @@
 package com.example.app_4621;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class DisplayMessageActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager rvLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
