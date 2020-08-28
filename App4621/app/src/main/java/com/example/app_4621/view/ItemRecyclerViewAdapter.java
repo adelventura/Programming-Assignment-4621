@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.example.app_4621.R;
-import com.example.app_4621.model.Item;
 import com.example.app_4621.vm.GroceryListViewModel;
 import com.example.app_4621.vm.ItemViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -52,18 +51,18 @@ public class ItemRecyclerViewAdapter extends Adapter {
         recentlyDeletedItemPosition = position;
         itemVms.remove(position);
         notifyItemRemoved(position);
-        //showUndoSnackbar();
+        showUndoSnackbar(recentlyDeletedItemVm.item.getName());
     }
 
     public Context getContext() {
         return context;
     }
 
-    private void showUndoSnackbar() {
+    private void showUndoSnackbar(String name) {
         View view = ((Activity) context).findViewById(R.id.layout);
-        Snackbar snackbar = Snackbar.make(view, "undo?",
+        Snackbar snackbar = Snackbar.make(view, "" + name + " removed" ,
                 Snackbar.LENGTH_LONG);
-        snackbar.setAction("undo??", v -> undoDelete());
+        snackbar.setAction("undo", v -> undoDelete());
         snackbar.show();
     }
 

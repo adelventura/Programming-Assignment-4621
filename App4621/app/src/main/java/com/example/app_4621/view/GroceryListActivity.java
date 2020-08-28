@@ -1,6 +1,7 @@
 package com.example.app_4621.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +17,13 @@ public class GroceryListActivity extends AppCompatActivity {
     private ItemRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager rvLayoutManager;
     private GroceryListViewModel vm;
+    public ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_list);
+        layout = findViewById(R.id.layout);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
