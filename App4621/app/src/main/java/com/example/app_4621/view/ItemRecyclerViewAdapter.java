@@ -1,5 +1,6 @@
 package com.example.app_4621.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,13 +8,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.example.app_4621.R;
+import com.example.app_4621.model.Item;
 import com.example.app_4621.vm.GroceryListViewModel;
+import com.example.app_4621.vm.ItemViewModel;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
 
 import static androidx.recyclerview.widget.RecyclerView.*;
 
 public class ItemRecyclerViewAdapter extends Adapter {
     private final Context context;
     private GroceryListViewModel vm;
+    private ItemViewModel recentlyDeletedItemVm;
+    private int recentlyDeletedItemPosition;
 
     public ItemRecyclerViewAdapter(Context context, GroceryListViewModel vm) {
         this.context = context;
@@ -35,5 +43,35 @@ public class ItemRecyclerViewAdapter extends Adapter {
     @Override
     public int getItemCount() {
         return vm.getItemList().size();
+    }
+
+    public void deleteItem(int position) {
+        List<ItemViewModel> itemVms = vm.getItemList();
+
+        recentlyDeletedItemVm = itemVms.get(position);
+        recentlyDeletedItemPosition = position;
+        itemVms.remove(position);
+        notifyItemRemoved(position);
+        //showUndoSnackbar();
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    private void showUndoSnackbar() {
+        View view = ((Activity) context).findViewById(R.id.layout);
+        Snackbar snackbar = Snackbar.make(view, "undo?",
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction("undo??", v -> undoDelete());
+        snackbar.show();
+    }
+
+    private void undoDelete() {
+        List<ItemViewModel> itemVms = vm.getItemList();
+
+        itemVms.add(recentlyDeletedItemPosition,
+                recentlyDeletedItemVm);
+        notifyItemInserted(recentlyDeletedItemPosition);
     }
 }

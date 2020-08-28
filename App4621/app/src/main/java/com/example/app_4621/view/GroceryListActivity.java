@@ -2,6 +2,7 @@ package com.example.app_4621.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -12,7 +13,7 @@ import com.example.app_4621.vm.GroceryListViewModel;
 
 public class GroceryListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter recyclerViewAdapter;
+    private ItemRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager rvLayoutManager;
     private GroceryListViewModel vm;
 
@@ -35,5 +36,8 @@ public class GroceryListActivity extends AppCompatActivity {
         recyclerViewAdapter = new ItemRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 }

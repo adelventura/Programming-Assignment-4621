@@ -1,13 +1,15 @@
-package com.example.app_4621.model;
+package com.example.app_4621.data;
 
-import java.util.ArrayList;
+import com.example.app_4621.model.Item;
+import com.example.app_4621.model.ItemType;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class ItemRepo {
-    private static ItemRepo instance = new ItemRepo();
+public class DebugItemRepository implements ItemRepository {
+    private static DebugItemRepository instance = new DebugItemRepository();
 
-    public static ItemRepo getInstance() {
+    public static DebugItemRepository getInstance() {
         return instance;
     }
 
