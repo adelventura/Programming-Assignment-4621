@@ -25,7 +25,6 @@ public class GroceryListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_grocery_list);
         layout = findViewById(R.id.layout);
 
-        // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 

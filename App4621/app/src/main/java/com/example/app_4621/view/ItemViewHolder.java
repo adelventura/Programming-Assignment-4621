@@ -13,12 +13,6 @@ import com.example.app_4621.vm.ItemViewModel;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder {
 
-//    public interface CategoryCardCallback {
-//        void itemSwipedLeft(ItemViewModel vm);
-//        void itemSwipeRight(ItemViewModel vm);
-//
-//    }
-
     private TextView nameTextView;
     private TextView quantityTextView;
     private ItemViewModel vm;
