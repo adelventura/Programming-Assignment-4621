@@ -88,11 +88,9 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
                     recyclerViewAdapter.sort(null);
-                    title.setText("Groceries: All");
                 } else {
                     String type = sortSpinner.getSelectedItem().toString();
                     recyclerViewAdapter.sort(ItemType.getEnumFromString(type));
-                    title.setText("Groceries: " + type);
                 }
             }
 
