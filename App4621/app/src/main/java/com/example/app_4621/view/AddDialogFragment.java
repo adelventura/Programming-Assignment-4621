@@ -37,7 +37,7 @@ public class AddDialogFragment extends DialogFragment {
         activity = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.alert, null);
+        View view = inflater.inflate(R.layout.add_dialog, null);
 
         nameEntry = (EditText)view.findViewById(R.id.edit_name);
         quantityEntry = (EditText)view.findViewById(R.id.edit_quantity);
