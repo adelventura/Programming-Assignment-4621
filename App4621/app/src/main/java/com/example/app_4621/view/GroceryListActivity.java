@@ -1,21 +1,26 @@
 package com.example.app_4621.view;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import com.example.app_4621.R;
+import com.example.app_4621.Util;
 import com.example.app_4621.vm.GroceryListViewModel;
 
 public class GroceryListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ItemRecyclerViewAdapter recyclerViewAdapter;
-    private RecyclerView.LayoutManager rvLayoutManager;
     private GroceryListViewModel vm;
     public ConstraintLayout layout;
 
@@ -26,7 +31,12 @@ public class GroceryListActivity extends AppCompatActivity {
         layout = findViewById(R.id.layout);
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String message = intent.getStringExtra(LoginActivity.EXTRA_MESSAGE);
+
+        Util.themeStatusBar(this, true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        addBackArrow();
 
         this.vm = new GroceryListViewModel(this);
         initRecyclerView();
@@ -41,5 +51,35 @@ public class GroceryListActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.finish();
+                return true;
+            case R.id.add:
+                Toast.makeText(this, "Todo: add item", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void addBackArrow() {
+        // back arrow to left
+        if (this.getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
     }
 }

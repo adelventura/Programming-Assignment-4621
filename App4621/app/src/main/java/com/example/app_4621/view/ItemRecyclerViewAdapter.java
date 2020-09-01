@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 
 import com.example.app_4621.R;
@@ -14,7 +15,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import static androidx.recyclerview.widget.RecyclerView.*;
+import static androidx.recyclerview.widget.RecyclerView.Adapter;
+import static androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 public class ItemRecyclerViewAdapter extends Adapter {
     private final Context context;
