@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="@string/enter_email"
+        android:hint="@string/enter_email"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,18 +24,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:inputType="textPassword"
-        android:text="@string/enter_password"
+        android:hint="@string/enter_password"
         app:layout_constraintEnd_toEndOf="@+id/email_text"
         app:layout_constraintStart_toStartOf="@+id/email_text"
         app:layout_constraintTop_toBottomOf="@+id/email_text" />
 
     <Button
         android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:onClick="sendMessage"
         android:text="@string/button_login"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_text" />
@@ -44,9 +46,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
-        android:text="Login"
-        android:textSize="60sp"
+        android:layout_marginBottom="40dp"
+        android:text="Groceries"
+        android:textColor="@color/colorPrimary"
+        android:textSize="45sp"
         app:layout_constraintBottom_toTopOf="@+id/email_text"
         app:layout_constraintStart_toStartOf="@+id/email_text" />
 

@@ -19,7 +19,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private final ColorDrawable background;
 
     public SwipeToDeleteCallback(ItemRecyclerViewAdapter adapter) {
-        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        super(0, ItemTouchHelper.LEFT);
         this.adapter = adapter;
 
         icon = ContextCompat.getDrawable(adapter.getContext(),
@@ -49,14 +49,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
         int iconBottom = iconTop + icon.getIntrinsicHeight();
 
-        if (dX > 0) { // Swiping to the right
-            int iconLeft = itemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
-            int iconRight = itemView.getLeft() + iconMargin;
-            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-
-            background.setBounds(itemView.getLeft(), itemView.getTop(),
-                    itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
-        } else if (dX < 0) { // Swiping to the left
+        if (dX < 0) { // Swiping to the left
             int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
             int iconRight = itemView.getRight() - iconMargin;
             icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);

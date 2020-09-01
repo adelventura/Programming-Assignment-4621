@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +43,8 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         addBackArrow();
+        TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        title.setText("Groceries");
 
         this.vm = new GroceryListViewModel(this);
         initRecyclerView();
@@ -52,6 +56,8 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
         recyclerViewAdapter = new ItemRecyclerViewAdapter(this, vm);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -71,7 +77,6 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
                 super.finish();
                 return true;
             case R.id.add:
-                //showAlertDialogButtonClicked();
                 showAddDialog();
                 return true;
             default:
@@ -100,8 +105,12 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, String itemName, String itemType) {
-        Toast.makeText(this, "Add " + itemName + " -- Type: " + itemType, Toast.LENGTH_SHORT).show();
+    public void onDialogPositiveClick(DialogFragment dialog, String itemName, String itemQuantity, String itemType) {
+        try {
+            recyclerViewAdapter.addItem(itemName, Integer.parseInt(itemQuantity), itemType);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

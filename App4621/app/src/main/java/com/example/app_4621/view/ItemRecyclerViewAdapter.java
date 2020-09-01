@@ -2,13 +2,17 @@ package com.example.app_4621.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.app_4621.R;
+import com.example.app_4621.model.Item;
+import com.example.app_4621.model.ItemType;
 import com.example.app_4621.vm.GroceryListViewModel;
 import com.example.app_4621.vm.ItemViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,6 +58,17 @@ public class ItemRecyclerViewAdapter extends Adapter {
         itemVms.remove(position);
         notifyItemRemoved(position);
         showUndoSnackbar(recentlyDeletedItemVm.item.getName());
+    }
+
+    public void addItem(String itemName, int itemQuantity, String itemType) {
+        Log.d("TAG", "addItem: here");
+
+        //Toast.makeText(context, "adding item called", Toast.LENGTH_SHORT);
+        ItemViewModel addedItemVm = new ItemViewModel(new Item(itemName, itemQuantity, ItemType.getEnumFromString(itemType)));
+
+        List<ItemViewModel> itemVms = vm.getItemList();
+        itemVms.add(addedItemVm);
+        notifyDataSetChanged();
     }
 
     public Context getContext() {

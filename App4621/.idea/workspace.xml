@@ -22,9 +22,15 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/model/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/model/ItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/AddDialogFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/AddDialogFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/AddItem.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/GroceryListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/GroceryListActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/ItemViewHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/ItemViewHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/ItemRecyclerViewAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/ItemRecyclerViewAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/SwipeToDeleteCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/app_4621/view/SwipeToDeleteCallback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/alert.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/alert.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_cell.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_cell.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,25 +197,25 @@
       <screen x="0" y="23" width="2048" height="1257" />
     </state>
     <state x="131" y="254" key="CommitChangelistDialog2/0.23.2048.1257@0.23.2048.1257" timestamp="1598945137597" />
-    <state width="1572" height="314" key="GridCell.Tab.0.bottom" timestamp="1598923192446">
+    <state width="1245" height="356" key="GridCell.Tab.0.bottom" timestamp="1598956996439">
       <screen x="0" y="23" width="2048" height="1257" />
     </state>
-    <state width="1572" height="314" key="GridCell.Tab.0.bottom/0.23.2048.1257@0.23.2048.1257" timestamp="1598923192446" />
-    <state width="1572" height="314" key="GridCell.Tab.0.center" timestamp="1598923192445">
+    <state width="1245" height="356" key="GridCell.Tab.0.bottom/0.23.2048.1257@0.23.2048.1257" timestamp="1598956996439" />
+    <state width="1245" height="356" key="GridCell.Tab.0.center" timestamp="1598956996438">
       <screen x="0" y="23" width="2048" height="1257" />
     </state>
-    <state width="1572" height="314" key="GridCell.Tab.0.center/0.23.2048.1257@0.23.2048.1257" timestamp="1598923192445" />
-    <state width="1572" height="314" key="GridCell.Tab.0.left" timestamp="1598923192443">
+    <state width="1245" height="356" key="GridCell.Tab.0.center/0.23.2048.1257@0.23.2048.1257" timestamp="1598956996438" />
+    <state width="1245" height="356" key="GridCell.Tab.0.left" timestamp="1598956996436">
       <screen x="0" y="23" width="2048" height="1257" />
     </state>
-    <state width="1572" height="314" key="GridCell.Tab.0.left/0.23.2048.1257@0.23.2048.1257" timestamp="1598923192443" />
-    <state width="1572" height="314" key="GridCell.Tab.0.right" timestamp="1598923192446">
+    <state width="1245" height="356" key="GridCell.Tab.0.left/0.23.2048.1257@0.23.2048.1257" timestamp="1598956996436" />
+    <state width="1245" height="356" key="GridCell.Tab.0.right" timestamp="1598956996438">
       <screen x="0" y="23" width="2048" height="1257" />
     </state>
-    <state width="1572" height="314" key="GridCell.Tab.0.right/0.23.2048.1257@0.23.2048.1257" timestamp="1598923192446" />
-    <state x="1024" y="308" width="670" height="676" key="search.everywhere.popup" timestamp="1598953779644">
+    <state width="1245" height="356" key="GridCell.Tab.0.right/0.23.2048.1257@0.23.2048.1257" timestamp="1598956996438" />
+    <state x="1024" y="308" width="670" height="676" key="search.everywhere.popup" timestamp="1598958404169">
       <screen x="0" y="23" width="2048" height="1257" />
     </state>
-    <state x="1024" y="308" width="670" height="676" key="search.everywhere.popup/0.23.2048.1257@0.23.2048.1257" timestamp="1598953779644" />
+    <state x="1024" y="308" width="670" height="676" key="search.everywhere.popup/0.23.2048.1257@0.23.2048.1257" timestamp="1598958404169" />
   </component>
 </project>

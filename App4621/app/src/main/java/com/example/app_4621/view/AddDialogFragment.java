@@ -21,14 +21,16 @@ import java.util.Arrays;
 public class AddDialogFragment extends DialogFragment {
 
     public interface AddDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog, String itemName, String itemType);
+        void onDialogPositiveClick(DialogFragment dialog, String itemName, String itemQuantity, String itemType);
         void onDialogNegativeClick(DialogFragment dialog);
     }
 
     AddDialogListener listener;
     Activity activity;
-    Spinner typeSpinner;
+    Spinner typeSelection;
     EditText nameEntry;
+    EditText quantityEntry;
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -38,15 +40,16 @@ public class AddDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.alert, null);
 
         nameEntry = (EditText)view.findViewById(R.id.edit_name);
-        typeSpinner = (Spinner)view.findViewById(R.id.spinner);
+        quantityEntry = (EditText)view.findViewById(R.id.edit_quantity);
+        typeSelection = (Spinner)view.findViewById(R.id.spinner);
 
         ArrayAdapter adapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, Arrays.asList((ItemType.values())));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(adapter);
+        typeSelection.setAdapter(adapter);
 
-        builder.setMessage("New item")
+        builder.setMessage("Add item")
                 .setView(view)
-                .setPositiveButton("Add", (dialog, id) -> listener.onDialogPositiveClick(AddDialogFragment.this, nameEntry.getText().toString(), typeSpinner.getSelectedItem().toString()))
+                .setPositiveButton("Add", (dialog, id) -> listener.onDialogPositiveClick(AddDialogFragment.this, nameEntry.getText().toString(), quantityEntry.getText().toString(), typeSelection.getSelectedItem().toString()))
                 .setNegativeButton("Don't Add", (dialog, id) -> listener.onDialogNegativeClick(AddDialogFragment.this));
         return builder.create();
     }
