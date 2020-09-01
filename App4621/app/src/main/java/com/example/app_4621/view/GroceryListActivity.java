@@ -31,10 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroceryListActivity extends AppCompatActivity implements AddDialogFragment.AddDialogListener {
+    private GroceryListViewModel vm;
+
     private RecyclerView recyclerView;
     private ItemRecyclerViewAdapter recyclerViewAdapter;
-    private GroceryListViewModel vm;
-    private ConstraintLayout layout;
     private Spinner sortSpinner;
     private TextView title;
 
@@ -42,12 +42,12 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_list);
-        layout = findViewById(R.id.layout);
 
         Util.themeStatusBar(this, true);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         addBackArrow();
+
         title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText("Groceries");
 
@@ -72,14 +72,8 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     }
 
     private void initSpinner(ItemRecyclerViewAdapter adapter) {
-        List<String> sortOptions = new ArrayList<>();
-        sortOptions.add("All");
-        ItemType[] types = ItemType.values();
-        for (ItemType t: types) {
-            sortOptions.add(t.toString());
-        }
-        sortSpinner = (Spinner)findViewById(R.id.sort_spinner);
-        ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sortOptions);
+        sortSpinner = (Spinner) findViewById(R.id.sort_spinner);
+        ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vm.getSortTypes());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(spinnerAdapter);
 
@@ -95,7 +89,8 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
     }
 
@@ -144,7 +139,7 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     public void onDialogPositiveClick(DialogFragment dialog, String itemName, String itemQuantity, String itemType) {
         try {
             recyclerViewAdapter.addItem(itemName, Integer.parseInt(itemQuantity), itemType);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

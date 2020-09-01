@@ -13,10 +13,20 @@ import java.util.List;
 
 public class GroceryListViewModel {
     private List<ItemViewModel> itemList = new ArrayList<>();
+    private List<String> sortTypes = new ArrayList<>();
+
     ItemRepository debugItemRepository;
 
     public GroceryListViewModel(Context context) {
         this.debugItemRepository = DebugItemRepository.getInstance();
+
+        this.sortTypes = new ArrayList<>();
+        sortTypes.add("All");
+        ItemType[] types = ItemType.values();
+        for (ItemType type : types) {
+            sortTypes.add(type.toString());
+        }
+
         sortItemListByType(null);
     }
 
@@ -38,5 +48,9 @@ public class GroceryListViewModel {
         for (Item item: items) {
             itemList.add(new ItemViewModel(item));
         }
+    }
+
+    public List<String> getSortTypes() {
+        return sortTypes;
     }
 }

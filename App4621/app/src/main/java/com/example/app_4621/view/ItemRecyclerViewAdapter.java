@@ -2,7 +2,6 @@ package com.example.app_4621.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ public class ItemRecyclerViewAdapter extends Adapter {
         this.context = context;
         this.vm = vm;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,7 +51,6 @@ public class ItemRecyclerViewAdapter extends Adapter {
 
     public void deleteItem(int position) {
         List<ItemViewModel> itemVms = vm.getItemList();
-
         recentlyDeletedItemVm = itemVms.get(position);
         recentlyDeletedItemPosition = position;
         itemVms.remove(position);
@@ -60,11 +59,9 @@ public class ItemRecyclerViewAdapter extends Adapter {
     }
 
     public void addItem(String itemName, int itemQuantity, String itemType) {
-        Log.d("TAG", "addItem: here");
-
-        //Toast.makeText(context, "adding item called", Toast.LENGTH_SHORT);
-        ItemViewModel addedItemVm = new ItemViewModel(new Item(itemName, itemQuantity, ItemType.getEnumFromString(itemType)));
-
+        ItemViewModel addedItemVm = new ItemViewModel(new Item(itemName,
+                itemQuantity,
+                ItemType.getEnumFromString(itemType)));
         List<ItemViewModel> itemVms = vm.getItemList();
         itemVms.add(addedItemVm);
         notifyDataSetChanged();
@@ -76,7 +73,6 @@ public class ItemRecyclerViewAdapter extends Adapter {
         } else {
             vm.sortItemListByType(null);
         }
-        List<ItemViewModel> itemVms =vm.getItemList();
         notifyDataSetChanged();
     }
 
@@ -86,7 +82,7 @@ public class ItemRecyclerViewAdapter extends Adapter {
 
     private void showUndoSnackbar(String name) {
         View view = ((Activity) context).findViewById(R.id.layout);
-        Snackbar snackbar = Snackbar.make(view, "" + name + " removed" ,
+        Snackbar snackbar = Snackbar.make(view, "" + name + " removed",
                 Snackbar.LENGTH_LONG);
         snackbar.setAction("undo", v -> undoDelete());
         snackbar.show();
