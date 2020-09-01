@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -71,6 +70,16 @@ public class ItemRecyclerViewAdapter extends Adapter {
         notifyDataSetChanged();
     }
 
+    public void sort(ItemType type) {
+        if (type != null) {
+            vm.sortItemListByType(type);
+        } else {
+            vm.sortItemListByType(null);
+        }
+        List<ItemViewModel> itemVms =vm.getItemList();
+        notifyDataSetChanged();
+    }
+
     public Context getContext() {
         return context;
     }
@@ -90,4 +99,6 @@ public class ItemRecyclerViewAdapter extends Adapter {
                 recentlyDeletedItemVm);
         notifyItemInserted(recentlyDeletedItemPosition);
     }
+
+
 }

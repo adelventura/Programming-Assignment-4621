@@ -3,6 +3,7 @@ package com.example.app_4621.data;
 import com.example.app_4621.model.Item;
 import com.example.app_4621.model.ItemType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,5 +32,17 @@ public class DebugItemRepository implements ItemRepository {
             }
         }
         return null;
+    }
+
+    public List<Item> getItemsOfType(ItemType type) {
+        List<Item> itemsOfType = new ArrayList<>();
+
+        for (Item item: items) {
+            if (item.getType() == type) {
+                itemsOfType.add(item);
+            }
+        }
+
+        return itemsOfType;
     }
 }
