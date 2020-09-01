@@ -26,8 +26,6 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         parentLayout = (ConstraintLayout) itemView.findViewById(R.id.item_cell_layout);
         nameTextView = (TextView) itemView.findViewById(R.id.item_name);
         quantityTextView = (TextView) itemView.findViewById(R.id.item_quantity);
-
-        //parentLayout.
     }
 
     public void setViewModel(ItemViewModel vm) {

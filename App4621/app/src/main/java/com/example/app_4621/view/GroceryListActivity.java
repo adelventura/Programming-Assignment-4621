@@ -1,5 +1,8 @@
 package com.example.app_4621.view;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,11 +21,12 @@ import com.example.app_4621.R;
 import com.example.app_4621.Util;
 import com.example.app_4621.vm.GroceryListViewModel;
 
-public class GroceryListActivity extends AppCompatActivity {
+public class GroceryListActivity extends AppCompatActivity implements AddDialogFragment.AddDialogListener {
     private RecyclerView recyclerView;
     private ItemRecyclerViewAdapter recyclerViewAdapter;
     private GroceryListViewModel vm;
-    public ConstraintLayout layout;
+    private ConstraintLayout layout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +71,8 @@ public class GroceryListActivity extends AppCompatActivity {
                 super.finish();
                 return true;
             case R.id.add:
-                Toast.makeText(this, "Todo: add item", Toast.LENGTH_SHORT).show();
+                //showAlertDialogButtonClicked();
+                showAddDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,5 +86,27 @@ public class GroceryListActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+    }
+
+    public void showAddDialog() {
+        FragmentManager manager = getFragmentManager();
+        Fragment frag = manager.findFragmentByTag("fragment_add_item");
+
+        if (frag != null) {
+            manager.beginTransaction().remove(frag).commit();
+        }
+        AddDialogFragment dialog = new AddDialogFragment();
+        dialog.show(manager, "fragment_add_item");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String itemName, String itemType) {
+        Toast.makeText(this, "Add " + itemName + " -- Type: " + itemType, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        Toast.makeText(this, "Don't add", Toast.LENGTH_SHORT).show();
+
     }
 }
