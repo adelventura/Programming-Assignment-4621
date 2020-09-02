@@ -23,6 +23,9 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        
+        Log.d("Login","Log in on create");
+        
         Util.themeStatusBar(this, false);
         registerButton = findViewById(R.id.register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
