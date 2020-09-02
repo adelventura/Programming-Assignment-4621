@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
     public void showRegisterDialog() {
         FragmentManager manager = getFragmentManager();
         Fragment frag = manager.findFragmentByTag("fragment_register_user");
-
         if (frag != null) {
             manager.beginTransaction().remove(frag).commit();
         }
@@ -132,7 +131,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
                     }
                 });
     }
-
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {

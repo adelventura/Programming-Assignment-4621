@@ -105,9 +105,7 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     }
 
     private void verifyLoginStatus() {
-        auth = FirebaseAuth.getInstance();
-        String uid = auth.getUid();
-
+        String uid = FirebaseAuth.getInstance().getUid();
         if (uid == null) {
             Log.d("TAG", "confirmLoginStatus: uid = " + uid);
             Intent intent = new Intent(this, LoginActivity.class);
@@ -128,8 +126,11 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                auth.signOut();
-                super.finish();
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 return true;
             case R.id.add:
                 showAddDialog();
@@ -174,7 +175,7 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     @Override
     public void onItemDeleted(int position) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String key = database.getReference("Grocery-App").push().getKey();
+        String key = database.getReference("/groceries").push().getKey();
         Item item = vm.getItemList().get(position).item;
         itemRepository.deleteItem(item);
     }

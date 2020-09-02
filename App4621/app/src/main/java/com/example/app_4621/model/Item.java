@@ -8,11 +8,13 @@ public class Item implements Serializable {
     private int quantity;
     private ItemType type;
     private String key;
+    private String userId;
 
     public Item(String name, int quantity, ItemType type) {
         this.name = name;
         this.quantity = quantity;
         this.type = type;
+        this.userId = "";
     }
 
     public void setName(String name) {
@@ -43,6 +45,10 @@ public class Item implements Serializable {
 
     public ItemType getType() {
         return type;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public HashMap<String,String> toFirebaseObject() {
