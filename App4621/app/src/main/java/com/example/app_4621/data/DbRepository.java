@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.example.app_4621.model.Item;
 import com.example.app_4621.model.ItemType;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +31,12 @@ public class DbRepository implements ItemRepository {
     public Listener listener;
 
     public void load() {
+        String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        if (uid == null) {
+            return;
+        }
 
         database.getReference("/groceries").addValueEventListener(
                 new ValueEventListener() {
@@ -88,7 +94,9 @@ public class DbRepository implements ItemRepository {
     }
 
     public void addItem(Item item) {
+        String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         String key = database.getReference("/groceries").push().getKey();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(key, item.toFirebaseObject());
