@@ -19,6 +19,8 @@ import com.example.app_4621.Util;
 import com.example.app_4621.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,19 +28,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity implements RegisterDialogFragment.RegisterDialogListener {
+    private static Boolean isFirebaseInitialized = false;
+
     public static final String EXTRA_MESSAGE = "com.example.app_4621.MESSAGE";
     private Button registerButton;
     private EditText emailEditText;
-    private FirebaseAuth auth;
-    private FirebaseDatabase db;
+    private static FirebaseAuth auth;
+    private static FirebaseDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        
-        Log.d("Login","Log in on create");
-        
+
+        Log.d("Login", "Log in on create");
+
         Util.themeStatusBar(this, false);
         registerButton = findViewById(R.id.register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -47,17 +51,24 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
             }
         });
 
-//        FirebaseOptions options = new FirebaseOptions.Builder()
-//                .setApplicationId("1:337003824867:android:46e3d81cfd083b4ec6e7d6") // Required for Analytics.
-//                .setApiKey("AIzaSyAGLPj6d_uHqmTBRLtg-I9Cy2_8s0MIAXM") // Required for Auth.
-//                .setDatabaseUrl("https://twowayuserproject.firebaseio.com") // Required for RTDB.
-//                .build();
-//        FirebaseApp.initializeApp(this /* Context */, options, "secondary");
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApplicationId("1:337003824867:android:46e3d81cfd083b4ec6e7d6") // Required for Analytics.
+                .setApiKey("AIzaSyAGLPj6d_uHqmTBRLtg-I9Cy2_8s0MIAXM") // Required for Auth.
+                .setDatabaseUrl("https://twowayuserproject.firebaseio.com") // Required for RTDB.
+                .build();
 
-       // FirebaseApp app = FirebaseApp.getInstance("secondary");
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance();
+        //if (FirebaseApp.getInstance(FirebaseApp.DEFAULT_APP_NAME) == null) {
 
+        //}
+        if (!isFirebaseInitialized) {
+            // only initialize once
+            FirebaseApp app = FirebaseApp.initializeApp(this, options, "other");
+            isFirebaseInitialized = true;
+
+            // FirebaseApp app = FirebaseApp.getInstance("secondary");
+            auth = FirebaseAuth.getInstance(app);
+            db = FirebaseDatabase.getInstance(app);
+        }
     }
 
     public void login(View view) {
@@ -67,6 +78,10 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
         String email = emailEditText.getText().toString();
         EditText passwordEditText = (EditText) findViewById(R.id.password_text);
         String password = passwordEditText.getText().toString();
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            return;
+        }
+
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -76,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "login:failure", task.getException());
@@ -136,5 +152,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {}
+    public void onDialogNegativeClick(DialogFragment dialog) {
+    }
 }

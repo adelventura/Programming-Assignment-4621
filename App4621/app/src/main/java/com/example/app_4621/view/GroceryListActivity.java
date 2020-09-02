@@ -46,6 +46,8 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("TAG", "list onCreate");
         setContentView(R.layout.activity_grocery_list);
 
         verifyLoginStatus();
@@ -105,14 +107,15 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     }
 
     private void verifyLoginStatus() {
-        String uid = FirebaseAuth.getInstance().getUid();
-        if (uid == null) {
-            Log.d("TAG", "confirmLoginStatus: uid = " + uid);
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
+//        auth = FirebaseAuth.getInstance();
+//        String uid = auth.getUid();
+//        if (uid == null) {
+//            Log.d("TAG", "confirmLoginStatus: uid = " + uid);
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//        }
     }
 
     @Override
@@ -126,11 +129,8 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                auth.signOut();
+                super.finish();
                 return true;
             case R.id.add:
                 showAddDialog();

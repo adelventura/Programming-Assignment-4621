@@ -31,12 +31,7 @@ public class DbRepository implements ItemRepository {
     public Listener listener;
 
     public void load() {
-        String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        if (uid == null) {
-            return;
-        }
 
         database.getReference("/groceries").addValueEventListener(
                 new ValueEventListener() {
@@ -94,7 +89,6 @@ public class DbRepository implements ItemRepository {
     }
 
     public void addItem(Item item) {
-        String uid = FirebaseAuth.getInstance().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         String key = database.getReference("/groceries").push().getKey();
