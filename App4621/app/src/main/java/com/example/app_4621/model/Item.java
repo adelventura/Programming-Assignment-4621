@@ -1,15 +1,37 @@
 package com.example.app_4621.model;
 
-public class Item {
+import java.io.Serializable;
+import java.util.HashMap;
+
+public class Item implements Serializable {
     private String name;
     private int quantity;
     private ItemType type;
+    private String key;
 
     public Item(String name, int quantity, ItemType type) {
         this.name = name;
         this.quantity = quantity;
         this.type = type;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setQuantity(String quantity) {
+        try {
+            this.quantity = Integer.parseInt(quantity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setType(String type) {
+        this.type = ItemType.getEnumFromString(type);
+    }
+
+    public Item() {}
 
     public String getName() {
         return name;
@@ -21,5 +43,14 @@ public class Item {
 
     public ItemType getType() {
         return type;
+    }
+
+    public HashMap<String,String> toFirebaseObject() {
+        HashMap<String,String> item = new HashMap<>();
+        item.put("name", name);
+        item.put("quantity", quantity + "");
+        item.put("type", type.toString());
+
+        return item;
     }
 }

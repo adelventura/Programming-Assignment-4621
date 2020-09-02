@@ -1,9 +1,11 @@
 package com.example.app_4621.view;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,18 +28,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_4621.R;
 import com.example.app_4621.Util;
+import com.example.app_4621.data.DbRepository;
+import com.example.app_4621.data.ItemRepository;
+import com.example.app_4621.model.Item;
 import com.example.app_4621.model.ItemType;
 import com.example.app_4621.vm.GroceryListViewModel;
+import com.example.app_4621.vm.ItemViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class GroceryListActivity extends AppCompatActivity implements AddDialogFragment.AddDialogListener {
+public class GroceryListActivity extends AppCompatActivity implements AddDialogFragment.AddDialogListener, GroceryListViewModel.Listener, SwipeToDeleteCallback.Listener {
+    private DbRepository itemRepository = new DbRepository();
     private GroceryListViewModel vm;
 
     private RecyclerView recyclerView;
     private ItemRecyclerViewAdapter recyclerViewAdapter;
     private Spinner sortSpinner;
+    private ArrayAdapter sortSpinnerAdapter;
     private TextView title;
 
     @Override
@@ -51,8 +68,12 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
         title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText("Groceries");
 
-        this.vm = new GroceryListViewModel(this);
+        this.vm = new GroceryListViewModel(this, itemRepository);
+        this.vm.listener = this;
+
         initRecyclerView();
+
+        itemRepository.load();
     }
 
     private void initRecyclerView() {
@@ -66,16 +87,17 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
 
         initSpinner(recyclerViewAdapter);
 
-        ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDeleteCallback(recyclerViewAdapter));
+        SwipeToDeleteCallback callback = new SwipeToDeleteCallback(recyclerViewAdapter);
+        callback.listener = this;
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void initSpinner(ItemRecyclerViewAdapter adapter) {
         sortSpinner = (Spinner) findViewById(R.id.sort_spinner);
-        ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vm.getSortTypes());
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sortSpinner.setAdapter(spinnerAdapter);
+        sortSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vm.getSortTypes());
+        sortSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(sortSpinnerAdapter);
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -137,15 +159,30 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, String itemName, String itemQuantity, String itemType) {
-        try {
-            recyclerViewAdapter.addItem(itemName, Integer.parseInt(itemQuantity), itemType);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Item item = new Item(itemName, Integer.parseInt((itemQuantity)), ItemType.getEnumFromString(itemType));
+        itemRepository.addItem(item);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         Toast.makeText(this, "Don't add", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpdated() {
+        // Update recycler view
+        recyclerViewAdapter.notifyDataSetChanged();
+
+        // Update spinner
+        sortSpinnerAdapter.clear();
+        sortSpinnerAdapter.addAll(vm.getSortTypes());
+    }
+
+    @Override
+    public void onItemDeleted(int position) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String key = database.getReference("Grocery-App").push().getKey();
+        Item item = vm.getItemList().get(position).item;
+        itemRepository.deleteItem(item);
     }
 }

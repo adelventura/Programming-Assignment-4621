@@ -3,7 +3,7 @@ package com.example.app_4621.vm;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.app_4621.data.DebugItemRepository;
+import com.example.app_4621.data.DbRepository;
 import com.example.app_4621.data.ItemRepository;
 import com.example.app_4621.model.Item;
 import com.example.app_4621.model.ItemType;
@@ -11,22 +11,22 @@ import com.example.app_4621.model.ItemType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroceryListViewModel {
+public class GroceryListViewModel implements DbRepository.Listener {
+
+    public interface Listener {
+        void onUpdated();
+    }
+
     private List<ItemViewModel> itemList = new ArrayList<>();
     private List<String> sortTypes = new ArrayList<>();
+    private ItemRepository itemRepository;
+    private ItemType sortMethod = null;
 
-    ItemRepository debugItemRepository;
+    public Listener listener;
 
-    public GroceryListViewModel(Context context) {
-        this.debugItemRepository = DebugItemRepository.getInstance();
-
-        this.sortTypes = new ArrayList<>();
-        sortTypes.add("All");
-        ItemType[] types = ItemType.values();
-        for (ItemType type : types) {
-            sortTypes.add(type.toString());
-        }
-
+    public GroceryListViewModel(Context context, DbRepository itemRepository) {
+        this.itemRepository = itemRepository;
+        itemRepository.listener = this;
         sortItemListByType(null);
     }
 
@@ -35,22 +35,43 @@ public class GroceryListViewModel {
     }
 
     public void sortItemListByType(ItemType type) {
-        List<Item> items;
-        itemList = new ArrayList<>();
-
-        if (type == null) {
-            items = debugItemRepository.getItems();
-        } else {
-            items = debugItemRepository.getItemsOfType(type);
-            Log.d("TAG", "sortItemListByType: ");
-        }
-
-        for (Item item: items) {
-            itemList.add(new ItemViewModel(item));
-        }
+        this.sortMethod = type;
+        updateData();
     }
 
     public List<String> getSortTypes() {
         return sortTypes;
     }
+
+    private void updateData() {
+        this.sortTypes = new ArrayList<>();
+        sortTypes.add("All");
+        ItemType[] types = ItemType.values();
+        for (ItemType type : types) {
+            sortTypes.add(type.toString());
+        }
+
+        List<Item> items;
+        itemList.clear();
+
+        if (sortMethod == null) {
+            items = itemRepository.getItems();
+        } else {
+            items = itemRepository.getItemsOfType(sortMethod);
+        }
+
+        for (Item item: items) {
+            itemList.add(new ItemViewModel(item));
+        }
+
+        if (listener != null) {
+            listener.onUpdated();
+        }
+    }
+
+    @Override
+    public void onUpdated() {
+        updateData();
+    }
+
 }
