@@ -1,11 +1,31 @@
 package com.example.app_4621.model;
 
-public class User {
-    private String email;
-    private String password;
+import java.io.Serializable;
 
-    public User(String email, String password) {
+public class User implements Serializable {
+    private String uid;
+    private String email;
+
+    public User(String uid, String email) {
+        this.uid = uid;
         this.email = email;
-        this.password = password;
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public User() {};
 }

@@ -7,23 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.app_4621.R;
-import com.example.app_4621.model.Item;
 import com.example.app_4621.model.ItemType;
 import com.example.app_4621.vm.GroceryListViewModel;
 import com.example.app_4621.vm.ItemViewModel;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static androidx.recyclerview.widget.RecyclerView.Adapter;
 import static androidx.recyclerview.widget.RecyclerView.ViewHolder;

@@ -7,20 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_4621.R;
-import com.example.app_4621.model.Item;
-import com.example.app_4621.model.ItemType;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private ItemRecyclerViewAdapter adapter;

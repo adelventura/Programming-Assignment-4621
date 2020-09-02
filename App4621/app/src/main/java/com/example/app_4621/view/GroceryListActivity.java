@@ -1,9 +1,9 @@
 package com.example.app_4621.view;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,11 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -29,24 +26,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_4621.R;
 import com.example.app_4621.Util;
 import com.example.app_4621.data.DbRepository;
-import com.example.app_4621.data.ItemRepository;
 import com.example.app_4621.model.Item;
 import com.example.app_4621.model.ItemType;
 import com.example.app_4621.vm.GroceryListViewModel;
-import com.example.app_4621.vm.ItemViewModel;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GroceryListActivity extends AppCompatActivity implements AddDialogFragment.AddDialogListener, GroceryListViewModel.Listener, SwipeToDeleteCallback.Listener {
     private DbRepository itemRepository = new DbRepository();
+    private FirebaseAuth auth;
     private GroceryListViewModel vm;
 
     private RecyclerView recyclerView;
@@ -60,10 +48,11 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_list);
 
+        verifyLoginStatus();
+
         Util.themeStatusBar(this, true);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        addBackArrow();
 
         title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText("Groceries");
@@ -72,7 +61,6 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
         this.vm.listener = this;
 
         initRecyclerView();
-
         itemRepository.load();
     }
 
@@ -116,6 +104,19 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
         });
     }
 
+    private void verifyLoginStatus() {
+        auth = FirebaseAuth.getInstance();
+        String uid = auth.getUid();
+
+        if (uid == null) {
+            Log.d("TAG", "confirmLoginStatus: uid = " + uid);
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -126,7 +127,8 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case R.id.logout:
+                auth.signOut();
                 super.finish();
                 return true;
             case R.id.add:
@@ -134,15 +136,6 @@ public class GroceryListActivity extends AppCompatActivity implements AddDialogF
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void addBackArrow() {
-        // back arrow to left
-        if (this.getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
 

@@ -32,7 +32,7 @@ public class DbRepository implements ItemRepository {
     public void load() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        database.getReference("Grocery-App").addValueEventListener(
+        database.getReference("/groceries").addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,10 +89,10 @@ public class DbRepository implements ItemRepository {
 
     public void addItem(Item item) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String key = database.getReference("Grocery-App").push().getKey();
+        String key = database.getReference("/groceries").push().getKey();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(key, item.toFirebaseObject());
-        database.getReference("Grocery-App").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
+        database.getReference("/groceries").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 //
@@ -104,7 +104,7 @@ public class DbRepository implements ItemRepository {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(keys.get(item), null);
-        database.getReference("Grocery-App").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
+        database.getReference("/groceries").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 //
